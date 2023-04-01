@@ -69,29 +69,50 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     # 游戏名
     name = db.Column(db.String(255), nullable = False)
-    # 游戏的发行商
-    publisher = db.Column(db.String(255))
-    # 游戏的制作商
-    producer = db.Column(db.String(255))
+    # 游戏的发行商制作商
+    company = db.Column(db.String(255))
     # 游戏类型的id
     type_id = db.Column(db.Integer,  db.ForeignKey("type.id"))
-    # 游戏类型
-    type = ""
+    # a_game.type可以获得该游戏的类型
+    # 反向引用：a_type.games可以获得所有该类型的游戏
+    it_type = db.relationship("Type", backref="games")
+    # 游戏评分
+    score = db.Column(db.String(10))
+    # 游戏发行年份
+    year = db.Column(db.String(10))
+    # 游戏名的md5
+    g_md5 = db.Column(db.String(255))
+    # 游戏图片名
+    img_name = db.Column(db.String(255))
+    # 游戏游玩时长
+    play_time = db.Column(db.String(50))
+    # 游戏发行日期
+    ss_time = db.Column(db.String(50))
+    # 游戏简介
+    jj = db.Column(db.String(255))
+    # 游戏支持平台
     platforms = db.relationship("Platform", secondary = game_platform,
                                 backref = db.backref("games"))
-    tags = db.relationship("Tags", secondary = game_tags,
+    #游戏的标签
+    gtags = db.relationship("Tags", secondary = game_tags,
                            backref = db.backref("games"))
 
     # 初始化
-    def __init__(self,name,publisher="NULL",producer="NULL",type_id = None,type = "未分类"):
+    def __init__(self,name=None,company="NULL",score = "--",year="999",g_md5 = "",
+                 img_name = "", play_time = "未知", ss_time = "9999-12-31",
+                 jj = ""):
         self.name = name
-        self.publisher = publisher
-        self.producer = producer
-        self.type_id = type_id
-        self.type = type
-    def get_type(self):
-        self.type = self.it_type.name
-        return self.type
+        self.company = company
+        self.score = score
+        self.year = year
+        self.g_md5 = g_md5
+        self.img_name = img_name
+        self.play_time = play_time
+        self.ss_time = ss_time
+        self.jj = jj
+    def __str__(self):
+        return f"name:{self.name}, company:{self.company}, score:{self.score}, year:{self.year}\n" \
+               f" g_md5:{self.g_md5}, img_name:{self.img_name}, playtime:{self.play_time}, ss_time:{self.ss_time}\n jj:{self.jj}"
 
 
 # 游戏类型
@@ -101,7 +122,6 @@ class Type(db.Model):
     name = db.Column(db.String(255))
     # a_type.games可以获得所有该类型的游戏。
     # 反向引用：a_game.type可以获得该游戏的类型
-    games = db.relationship("Game", backref="it_type")
 
 # 游戏平台
 class Platform(db.Model):
