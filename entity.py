@@ -44,10 +44,10 @@ class User(db.Model):
     __tablename__ = "user"
     # 用户id
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    # 用户名
-    username = db.Column(db.String(255), nullable = False)
-    # 用户密码
-    pwd = db.Column(db.String(255), nullable = False)
+    # 用户的openid 唯一标识
+    openid = db.Column(db.String(255), nullable = False)
+    # 用户性别
+    gender = db.Column(db.String(50))
     # 用户昵称
     nickname = db.Column(db.String(255))
     # 用户注册时间
