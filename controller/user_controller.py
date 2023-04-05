@@ -12,8 +12,8 @@ userModule = Blueprint('user', __name__)
 
 @userModule.route('/login',methods=['POST'])
 def login():
-    appid = 'wxbc0bb3d567068528'
-    secret = '74545a3971bc4abcb3635544bcb6efe0'
+    appid = ''
+    secret = ''
     code = request.json.get("code")
     userInfo = request.json.get("userInfo")
     url = f"https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code"
