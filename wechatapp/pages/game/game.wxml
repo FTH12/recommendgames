@@ -1,0 +1,77 @@
+<view class="container">
+    <view class="navbar">
+        <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+    </view>
+    <view class="main">
+        <scroll-view class="main-scroll" scroll-y style="height: 100%">
+            <view hidden="{{currentTab!==0}}">
+                <!-- <block wx:for="{{list}}"> -->
+                <view class='game-info'>
+                    <view class='game-info-img'>
+                        <image mode="widthFix" src='{{img_src}}{{gameYear}}/{{gameImage}}' class='gameImage'></image>
+                    </view>
+                    <view class="line">
+                        <span>🎮</span>
+                    </view>
+                    <text class='game-info-text'>{{gameTitle}}</text>
+                    <text>{{gamePublishTime}}/{{gamePublisherName}}/{{gameTypeName}}</text>
+                    <view class="line-small"></view>
+                    <view class="gamePlatform">
+                        <block wx:for="{{gamePlatforms}}" data-idx="{{index}}" wx:key="unique">
+                            <text>{{item}}</text>
+                        </block>
+                    </view>
+                    <view class="line-small"></view>
+                    <view class='gameTag'>
+                        <block wx:for="{{gameTags}}" data-idx="{{index}}" wx:key="unique">
+                            <text>{{item}}</text>
+                        </block>
+                    </view>
+                    <view class="line-small"></view>
+                    <text>游戏评分：{{gameScore}}</text>
+                    <view class="line-small"></view>
+                    <text>{{gameIntroduce}}</text>
+                </view>
+                <!-- </block> -->
+            </view>
+            <!-- 评测页面 -->
+            <view hidden="{{currentTab!==1}}">
+                <view class='game-comments-top'>
+                    <view style='text-align:center;'>
+                        <text>- 你是否推荐这款游戏?</text>
+                    </view>
+                    <view class='game-comments-recommend'>
+                        <button bindtap='recommend'>👍 推荐</button>
+                        <button bindtap='norecommend'>👎 不推荐</button>
+                    </view>
+                    <view class="line"></view>
+                </view>
+                <text> 💬 玩家评测({{comment_count}})</text>
+                <view class="line-small"></view>
+                <block wx:for="{{list}}">
+                    <view class='game-comments-block'>
+                        <view class='game-comments'>
+                            <image src='{{item.user_avatarurl}}' class='game-comments-avatar'></image>
+                            <view class='game-comments-name'>
+                                <text>{{item.user_nickname}}{{item.isrecommend==1?"👍":"👎"}}</text>
+                                <text class='game-comments-time'>{{item.comment_time}}</text>
+                            </view>
+                        </view>
+                        <text class='game-comments-content'>{{item.content}}</text>
+                        <view class="line-small"></view>
+                    </view>
+                </block>
+            </view>
+        </scroll-view>
+    </view>
+    <view class='haveorlike'>
+        <view class="own_like" bindtap="haveit">
+            <image src="/static/images/icon_collect{{ishas==0?'':'_checked'}}.png" class="own_img"></image>
+            <text>加入游戏库</text>
+        </view>
+        <view class="own_like" bindtap="likeit">
+            <image src="/static/images/icon_like{{islike==0?'':'_checked'}}.png" class="own_img"></image>
+            <text>加入心愿单</text>
+        </view>
+    </view>
+</view>

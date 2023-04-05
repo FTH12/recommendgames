@@ -1,0 +1,23 @@
+<!--pages/gamelibrary/gamelibrary.wxml-->
+<view class="flex-wrp" style="flex-direction:column;">
+    <view class="flex-item">
+        <block wx:for="{{list}}">
+            <navigator url="/pages/game/game?gameId={{item.id}}">
+                <view class='game-block'>
+                    <view>
+                        <image class="game-image" src='{{img_src}}/{{item.year}}/{{item.img_name}}' background-size="cover"></image>
+                    </view>
+                    <view>
+                        <text class='game-text-title'>{{item.name}}</text>
+                        <view>
+                            <text class='game-text-content'>{{item.type}}</text>
+                        </view>
+                    </view>
+                    <view class='game-text-rate'>
+                        <text class='game-text-score'>评分:{{item.score}}分</text>
+                    </view>
+                </view>
+            </navigator>
+        </block>
+    </view>
+</view>
