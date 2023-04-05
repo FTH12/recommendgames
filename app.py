@@ -1,10 +1,11 @@
-
+from controller.comment_controller import commentModule
 from input_json import *
 from controller.game_controller import *
 from controller.user_controller import *
 app = create_app()
 app.register_blueprint(gameModule, url_prefix = '/game')
 app.register_blueprint(userModule, url_prefix = '/user')
+app.register_blueprint(commentModule, url_prefix='/comment')
 @app.route('/asd')
 def hello_world():
     games = Game.query.limit(10).all()

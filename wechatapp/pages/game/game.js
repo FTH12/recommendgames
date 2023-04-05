@@ -98,6 +98,7 @@ Page({
                 method: 'GET',
                 data: {},
                 success: res => {
+                    console.log(res)
                     this.setData({ ishas: res.data.ishas })
                     this.setData({ islike: res.data.islike })
                 }

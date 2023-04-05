@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -28,6 +30,11 @@ game_library = db.Table("game_library",
                         db.Column("user_id", db.Integer, db.ForeignKey("user.id")),
                         db.Column("game_id", db.Integer, db.ForeignKey("game.id")),
                         )
+# 心愿单中间表
+game_like = db.Table("game_like",
+                        db.Column("user_id", db.Integer, db.ForeignKey("user.id")),
+                        db.Column("game_id", db.Integer, db.ForeignKey("game.id")),
+                     )
 # 好友中间表
 class Friend(db.Model):
     __tablename__ = "friends"
@@ -50,6 +57,8 @@ class User(db.Model):
     gender = db.Column(db.String(50))
     # 用户昵称
     nickname = db.Column(db.String(255))
+    # 用户头像url
+    avatarurl = db.Column(db.String(255))
     # 用户注册时间
     registertime = db.Column(db.DateTime)
     # 用户上次登陆时间
@@ -60,6 +69,9 @@ class User(db.Model):
     # 反向：a_game.users获取拥有该游戏的所有用户
     games = db.relationship("Game", secondary = game_library,
                             backref = db.backref("users"))
+    # 用户的心愿单游戏
+    likegames = db.relationship("Game", secondary = game_like,
+                                backref = db.backref("likeusers"))
     # a_user.friends获取该用户好友
 
 # 游戏
@@ -138,3 +150,13 @@ class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255))
 
+class Comment(db.Model):
+    __tablename__ = "comment"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer,  db.ForeignKey("user.id"))
+    game_id = db.Column(db.Integer,  db.ForeignKey("game.id"))
+    content = db.Column(db.String(255))
+    comment_time = db.Column(db.DateTime, default = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()))
+    isrecommend = db.Column(db.Integer)
+    user_nickname = db.Column(db.String(255))
+    user_avatarurl = db.Column(db.String(255))
